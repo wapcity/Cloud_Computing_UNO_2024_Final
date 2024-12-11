@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Houses for Sale</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .house-item {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .house-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Houses for Sale In Omaha</h1>
+    <div id="house-list" class="mt-4">
+    
+    </div>
+  </div>
+
+  <script>
+    fetch('http://184.73.23.236:3000/getHouses')  
+      .then(response => response.json())
+      .then(data => {
+        const houseList = document.getElementById('house-list');
+        
+        data.houses.forEach(house => {
+          const houseDiv = document.createElement('div');
+          houseDiv.classList.add('house-item', 'row');
+          
+          
+          houseDiv.innerHTML = `
+            <div class="col-md-4">
+              <img src="${house.imageUrl}" alt="House Image">
+            </div>
+            <div class="col-md-8">
+              <h3>${house.address}</h3>
+              <p><strong>Price:</strong> $${house.price}</p>
+	      <p><strong>Bedrooms:</strong> ${house.Bedroom} </p>
+              <p><strong>Bathrooms:</strong> ${house.bathroom}</p>
+              <p><strong>Sqft:</strong> ${house.sqft}</p>
+            </div>
+          `;
+          
+         
+          houseList.appendChild(houseDiv);
+        });
+      })
+      .catch(error => console.error('Error fetching houses:', error));
+  </script>
+</body>
+</html>
+
